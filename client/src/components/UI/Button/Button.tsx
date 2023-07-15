@@ -18,6 +18,10 @@ const Container = styled.button`
   color: white;
   height: 41px;
   border-radius: 10px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 export default Button;

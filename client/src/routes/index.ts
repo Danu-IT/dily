@@ -1,7 +1,9 @@
 import { ComponentType, lazy } from "react";
-import Login from "../pages/Public/Login";
-import Register from "../pages/Public/Register";
-import Reset from "../pages/Public/Reset";
+
+const Home = lazy(() => import('../pages/Private/Home'))
+const Login = lazy(() => import('../pages/Public/Login'))
+const Register = lazy(() => import('../pages/Public/Register'))
+const Reset = lazy(() => import('../pages/Public/Reset'))
 
 export interface IRoute {
     path: string;
@@ -20,7 +22,7 @@ export enum RoutesNamesPublic {
 }
 
 export const privateRoutes: IRoute[] = [
-
+    { path: RoutesNamesPrivate.HOME, component: Home, type: "Home" },
 ];
 
 export const publicRoutes: IRoute[] = [

@@ -1,68 +1,88 @@
-import { useState } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import Input from "../../../Input";
 import styled from "styled-components";
 import Button from "../../../Button";
 import Named from "../../../../Named";
+import { RegForm } from "../../../../../type/form";
+import { ErrorForm } from "../../../../../pages/Public/Register/Register";
+import { Link } from "react-router-dom";
 
-const RegisterForm = () => {
-  const [loginForm, setLoginForm] = useState({
-    name: "",
-    surname: "",
-    email: "",
-    password: "",
-    cpassword: "",
-  });
+interface RegisterFormProps {
+  registerForm: RegForm;
+  setRegisterForm: Dispatch<SetStateAction<RegForm>>;
+  error: ErrorForm;
+  setError?: Dispatch<SetStateAction<ErrorForm>>;
+}
 
+const RegisterForm: FC<RegisterFormProps> = ({
+  registerForm,
+  setRegisterForm,
+  error,
+  setError,
+}) => {
   return (
     <>
       <ContainerInput>
         <Top>
           <Initials>
-            {loginForm.name[0]?.toUpperCase()}
-            {loginForm.surname[0]?.toUpperCase()}
+            {registerForm.name[0]?.toUpperCase()}
+            {registerForm.surname[0]?.toUpperCase()}
           </Initials>
           <Name
-            name={loginForm.name}
-            surname={loginForm.surname}
+            name={registerForm.name}
+            surname={registerForm.surname}
             max={22}
           />
         </Top>
         <Inputs>
           <Input
-            value={loginForm.name}
-            setValue={(value) => setLoginForm({ ...loginForm, name: value })}
+            value={registerForm.name}
+            setValue={(value) =>
+              setRegisterForm({ ...registerForm, name: value })
+            }
             placeholder="Имя"
             name="Ваше имя"></Input>
           <Input
-            value={loginForm.surname}
-            setValue={(value) => setLoginForm({ ...loginForm, surname: value })}
+            value={registerForm.surname}
+            setValue={(value) =>
+              setRegisterForm({ ...registerForm, surname: value })
+            }
             placeholder="Фамилия"
             name="Ваша фамилия"></Input>
           <Input
-            value={loginForm.email}
-            setValue={(value) => setLoginForm({ ...loginForm, email: value })}
+            value={registerForm.email}
+            setValue={(value) =>
+              setRegisterForm({ ...registerForm, email: value })
+            }
             placeholder="name@inbox.ru"
             name="E-mail"
             type="email"></Input>
           <Input
-            value={loginForm.password}
+            value={registerForm.password}
             setValue={(value) =>
-              setLoginForm({ ...loginForm, password: value })
+              setRegisterForm({ ...registerForm, password: value })
             }
             placeholder="Пароль"
             name="Пароль"
-            type="password"></Input>
+            type="password"
+            error={error.error}
+            setError={setError}></Input>
           <Input
-            value={loginForm.cpassword}
+            value={registerForm.cpassword}
             setValue={(value) =>
-              setLoginForm({ ...loginForm, cpassword: value })
+              setRegisterForm({ ...registerForm, cpassword: value })
             }
             placeholder="Повторить пароль"
             type="password"
-            name="Повторить пароль"></Input>
+            name="Повторить пароль"
+            error={error.error}
+            setError={setError}></Input>
         </Inputs>
       </ContainerInput>
       <Button type="submit">Войти</Button>
+      <Quest>
+        У вас уже есть аккаунт? <Link to="/login">Есть</Link>
+      </Quest>
     </>
   );
 };
@@ -113,6 +133,9 @@ const Inputs = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
+`;
+const Quest = styled.div`
+  text-align: center;
 `;
 
 export default RegisterForm;

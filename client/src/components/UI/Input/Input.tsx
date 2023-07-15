@@ -1,8 +1,10 @@
-import { FC, useState } from "react";
+import { Dispatch, FC, FormEvent, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import { CgAsterisk } from "react-icons/cg";
 import { IoEyeSharp } from "react-icons/io5";
 import { BsFillEyeSlashFill } from "react-icons/bs";
+import { RegForm } from "../../../type/form";
+import { ErrorForm } from "../../../pages/Public/Register/Register";
 
 interface InputProps {
   placeholder?: string;
@@ -10,6 +12,8 @@ interface InputProps {
   value: string;
   setValue: (value: string) => void;
   type?: string;
+  error?: string;
+  setError?: Dispatch<SetStateAction<ErrorForm>>;
 }
 
 const Input: FC<InputProps> = ({
@@ -18,8 +22,17 @@ const Input: FC<InputProps> = ({
   value,
   setValue,
   type,
+  error,
+  setError,
 }) => {
   const [visible, setVisible] = useState(true);
+
+  const handleInput = (e: FormEvent<HTMLInputElement>) => {
+    setValue(e.currentTarget.value);
+    if (type === "password" || type === "cpassword") {
+      setError && setError({ value: "", error: "" });
+    }
+  };
 
   return (
     <Container>
@@ -31,9 +44,10 @@ const Input: FC<InputProps> = ({
         maxLength={type === "email" ? 50 : 15}
         type={visible ? type : "text"}
         value={value}
-        onChange={(e: any) => setValue(e.target.value)}
+        onChange={(e: FormEvent<HTMLInputElement>) => handleInput(e)}
         placeholder={placeholder}
       />
+      {error && <Error>* {error}</Error>}
       {type === "password" && (
         <Eye onClick={() => setVisible((prev) => !prev)}>
           {visible ? <BsFillEyeSlashFill /> : <IoEyeSharp />}
@@ -71,6 +85,13 @@ const InputTag = styled.input`
   padding: 10px 15px;
   display: flex;
   width: 304px;
+`;
+const Error = styled.div`
+  position: absolute;
+  bottom: -17px;
+  left: 10px;
+  font-size: 13px;
+  color: red;
 `;
 
 export default Input;

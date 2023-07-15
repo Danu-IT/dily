@@ -1,8 +1,15 @@
 import ReactDOM from "react-dom/client";
 import "./style/index.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import App from "./App/App";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-root.render(<App />);
+root.render(
+  <>
+    <ToastContainer />
+    <App />
+  </>
+);

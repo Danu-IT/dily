@@ -1,15 +1,17 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, FormEvent } from "react";
 import styled from "styled-components";
 
 interface FormProps {
   children: ReactNode;
-  onSubmit: (e: any) => any;
+  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
 }
 
 const Form: FC<FormProps> = ({ children, onSubmit }) => {
   return (
     <Container>
-      <FormContainer onSubmit={onSubmit}>{children}</FormContainer>
+      <FormContainer onSubmit={(e: FormEvent<HTMLFormElement>) => onSubmit(e)}>
+        {children}
+      </FormContainer>
     </Container>
   );
 };
