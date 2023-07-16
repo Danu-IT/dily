@@ -10,6 +10,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+
   const handlerSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(loginForm);
@@ -18,7 +19,9 @@ const Login = () => {
   return (
     <Container>
       <SuperBoard />
-      <Form onSubmit={handlerSubmit}>
+      <Form
+        padding={false}
+        onSubmit={handlerSubmit}>
         <LoginForm
           loginForm={loginForm}
           setLoginForm={setLoginForm}

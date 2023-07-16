@@ -25,9 +25,13 @@ const Register = () => {
   const handlerSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = validationRegistration(registerForm);
-    if (result) setError({ value: result.value, error: result.error });
+    if (result) {
+      setError({ value: result.value, error: result.error });
+      return false;
+    }
     console.log(result);
   };
+
   return (
     <Container>
       <SuperBoard />

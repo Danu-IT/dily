@@ -3,12 +3,13 @@ import styled from "styled-components";
 
 interface FormProps {
   children: ReactNode;
+  padding?: boolean;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
 }
 
-const Form: FC<FormProps> = ({ children, onSubmit }) => {
+const Form: FC<FormProps> = ({ children, onSubmit, padding }) => {
   return (
-    <Container>
+    <Container padding={padding}>
       <FormContainer onSubmit={(e: FormEvent<HTMLFormElement>) => onSubmit(e)}>
         {children}
       </FormContainer>
@@ -16,12 +17,17 @@ const Form: FC<FormProps> = ({ children, onSubmit }) => {
   );
 };
 
-const Container = styled.div`
+interface FormStyleProps {
+  padding: boolean | undefined;
+}
+
+const Container = styled.div<FormStyleProps>`
   color: #262626;
   display: flex;
   justify-content: center;
+  align-items: ${({ padding }) => (padding ? "" : "center")};
   flex: 1;
-  padding-top: 100px;
+  padding-top: ${({ padding }) => (padding ? "100px" : "0")};
   position: relative;
 `;
 const FormContainer = styled.form``;

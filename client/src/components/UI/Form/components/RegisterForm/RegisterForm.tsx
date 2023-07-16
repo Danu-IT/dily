@@ -79,7 +79,7 @@ const RegisterForm: FC<RegisterFormProps> = ({
             setError={setError}></Input>
         </Inputs>
       </ContainerInput>
-      <Button type="submit">Войти</Button>
+      <Button type="submit">Зарегистрироваться</Button>
       <Quest>
         У вас уже есть аккаунт? <Link to="/login">Есть</Link>
       </Quest>
