@@ -11,4 +11,11 @@ export interface AuthForm {
     password: string;
 }
 
+export interface RegFormApi {
+    name: string;
+    surname: string;
+    email: string;
+    password: string;
+}
+
 export type AllForm = RegForm | AuthForm

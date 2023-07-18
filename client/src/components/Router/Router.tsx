@@ -2,9 +2,10 @@ import { Suspense, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { privateRoutes, publicRoutes } from "../../routes";
 import Login from "../../pages/Public/Login";
+import { useAppSelector } from "../../hooks/redux";
 
 const Router = () => {
-  const [isAuth, setIsAuth] = useState(false);
+  const { isAuth } = useAppSelector((state) => state.auth);
   return (
     <BrowserRouter>
       <Suspense fallback={<>Загрузка....</>}>

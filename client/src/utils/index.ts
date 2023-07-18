@@ -24,7 +24,7 @@ export const validationRegistration = (form: RegForm) => {
         toast.error("Некоторые поля не заполнены");
         return false;
     }
-    if (passwordStrength(form.password).value == 'Weak' || passwordStrength(form.password).value == 'Too weak') {
+    if (passwordStrength(form.password).value == 'Too weak') {
         return { value: 'password', error: 'Слабый пароль' };
     }
 }

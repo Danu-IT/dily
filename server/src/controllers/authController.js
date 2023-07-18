@@ -14,10 +14,11 @@ const generateAccessToken = (id) => {
 class authController {
   async registration(req, res) {
     try {
+      console.log(req.body);
+      const { name, surname, password, email } = req.body;
       const errors = validationResult(req);
-      if (!errors.isEmpty()) return res.status(400).json({ errors });
+      if (!errors.isEmpty()) return res.status(400).json({ message: errors });
 
-      const { name, email, password, surname } = req.body;
       const candidate = await User.findOne({ email });
       if (candidate) {
         return res
@@ -26,6 +27,7 @@ class authController {
       }
       const hashPassword = bcrypt.hashSync(password, 6);
       const user = new User({ email, password: hashPassword, surname, name });
+      console.log("save");
       await user.save();
       return res.json({ message: "Пользователь успешно зарегистрирован" });
     } catch (e) {
