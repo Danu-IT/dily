@@ -3,15 +3,14 @@ import Input from "../../../Input";
 import styled from "styled-components";
 import Button from "../../../Button";
 import Named from "../../../../Named";
-import { RegForm } from "../../../../../type/form";
-import { ErrorForm } from "../../../../../pages/Public/Register/Register";
+import { ErrorForm, RegForm } from "../../../../../type/form";
 import { Link } from "react-router-dom";
 
 interface RegisterFormProps {
   registerForm: RegForm;
   setRegisterForm: Dispatch<SetStateAction<RegForm>>;
-  error: ErrorForm;
-  setError?: Dispatch<SetStateAction<ErrorForm>>;
+  error: ErrorForm | ErrorForm[];
+  setError?: Dispatch<SetStateAction<ErrorForm | ErrorForm[]>>;
 }
 
 const RegisterForm: FC<RegisterFormProps> = ({
@@ -20,6 +19,15 @@ const RegisterForm: FC<RegisterFormProps> = ({
   error,
   setError,
 }) => {
+  const constructorError = (value: string) => {
+    if (Array.isArray(error)) {
+      const index = error.findIndex((el) => el.value === value);
+      return error[index];
+    } else {
+      return error;
+    }
+  };
+
   return (
     <>
       <ContainerInput>
@@ -41,14 +49,20 @@ const RegisterForm: FC<RegisterFormProps> = ({
               setRegisterForm({ ...registerForm, name: value })
             }
             placeholder="Имя"
-            name="Ваше имя"></Input>
+            error={constructorError("name")}
+            name="Ваше имя"
+            type="name"
+            setError={setError}></Input>
           <Input
             value={registerForm.surname}
             setValue={(value) =>
               setRegisterForm({ ...registerForm, surname: value })
             }
             placeholder="Фамилия"
-            name="Ваша фамилия"></Input>
+            error={constructorError("surname")}
+            name="Ваша фамилия"
+            type="surname"
+            setError={setError}></Input>
           <Input
             value={registerForm.email}
             setValue={(value) =>
@@ -56,7 +70,9 @@ const RegisterForm: FC<RegisterFormProps> = ({
             }
             placeholder="name@inbox.ru"
             name="E-mail"
-            type="email"></Input>
+            type="email"
+            error={constructorError("email")}
+            setError={setError}></Input>
           <Input
             value={registerForm.password}
             setValue={(value) =>
@@ -65,7 +81,7 @@ const RegisterForm: FC<RegisterFormProps> = ({
             placeholder="Пароль"
             name="Пароль"
             type="password"
-            error={error.error}
+            error={constructorError("password")}
             setError={setError}></Input>
           <Input
             value={registerForm.cpassword}
@@ -75,7 +91,7 @@ const RegisterForm: FC<RegisterFormProps> = ({
             placeholder="Повторить пароль"
             type="password"
             name="Повторить пароль"
-            error={error.error}
+            error={constructorError("password")}
             setError={setError}></Input>
         </Inputs>
       </ContainerInput>

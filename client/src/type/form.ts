@@ -18,4 +18,9 @@ export interface RegFormApi {
     password: string;
 }
 
+export interface ErrorForm {
+    value: string;
+    error: string;
+}
+
 export type AllForm = RegForm | AuthForm

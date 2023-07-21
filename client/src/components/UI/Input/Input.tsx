@@ -3,8 +3,7 @@ import styled from "styled-components";
 import { CgAsterisk } from "react-icons/cg";
 import { IoEyeSharp } from "react-icons/io5";
 import { BsFillEyeSlashFill } from "react-icons/bs";
-import { RegForm } from "../../../type/form";
-import { ErrorForm } from "../../../pages/Public/Register/Register";
+import { ErrorForm } from "../../../type/form";
 
 interface InputProps {
   placeholder?: string;
@@ -12,8 +11,8 @@ interface InputProps {
   value: string;
   setValue: (value: string) => void;
   type?: string;
-  error?: string;
-  setError?: Dispatch<SetStateAction<ErrorForm>>;
+  error?: ErrorForm;
+  setError?: Dispatch<SetStateAction<ErrorForm | ErrorForm[]>>;
 }
 
 const Input: FC<InputProps> = ({
@@ -29,7 +28,8 @@ const Input: FC<InputProps> = ({
 
   const handleInput = (e: FormEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value);
-    if (type === "password" || type === "cpassword") {
+
+    if (error?.value === type) {
       setError && setError({ value: "", error: "" });
     }
   };
@@ -47,7 +47,7 @@ const Input: FC<InputProps> = ({
         onChange={(e: FormEvent<HTMLInputElement>) => handleInput(e)}
         placeholder={placeholder}
       />
-      {error && <Error>* {error}</Error>}
+      {error?.error && error?.value === type && <Error>* {error.error}</Error>}
       {type === "password" && (
         <Eye onClick={() => setVisible((prev) => !prev)}>
           {visible ? <BsFillEyeSlashFill /> : <IoEyeSharp />}

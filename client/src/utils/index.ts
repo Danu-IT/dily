@@ -16,13 +16,18 @@ export const removeExtraCharacters = (
 };
 
 export const validationRegistration = (form: RegForm) => {
+
     if (form.password !== form?.cpassword) {
         toast.error("Пароли не совпадают");
-        return false;
+        return { value: 'password', error: 'Пароли не совпадают' };
     }
     if (!form.name || !form.surname || !form.email || !form.password || !form.cpassword) {
+        const result = Object.entries(form).filter(el => el[1] === '' ? true : false).map(el => ({
+            value: el[0],
+            error: "Поле не заполнено"
+        }))
         toast.error("Некоторые поля не заполнены");
-        return false;
+        return result;
     }
     if (passwordStrength(form.password).value == 'Too weak') {
         return { value: 'password', error: 'Слабый пароль' };

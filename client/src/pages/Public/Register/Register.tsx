@@ -4,15 +4,10 @@ import Form from "../../../components/UI/Form";
 import RegisterForm from "../../../components/UI/Form/components/RegisterForm";
 import { FormEvent, useState, useEffect } from "react";
 import { validationRegistration } from "../../../utils";
-import { RegForm } from "../../../type/form";
+import { ErrorForm, RegForm } from "../../../type/form";
 import { authAPI } from "../../../store/services/authService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
-export interface ErrorForm {
-  value: string;
-  error: string;
-}
 
 const Register = () => {
   const [registerForm, setRegisterForm] = useState<RegForm>({
@@ -23,13 +18,17 @@ const Register = () => {
     cpassword: "",
   });
   const navigate = useNavigate();
+
   const [registrationUser, { data: info, error, isError }] =
     authAPI.usePostRegistrationMutation<any>();
 
-  const [errorState, setError] = useState<ErrorForm>({ value: "", error: "" });
+  const [errorState, setError] = useState<ErrorForm | ErrorForm[]>({
+    value: "",
+    error: "",
+  });
 
   useEffect(() => {
-    if (info || errorState.value !== "") {
+    if (info) {
       toast.success(`${info?.message}`);
       navigate("/login");
     }
@@ -46,17 +45,20 @@ const Register = () => {
     e.preventDefault();
     const result = validationRegistration(registerForm);
     if (result) {
-      setError({ value: result.value, error: result.error });
-      return false;
+      if (Array.isArray(result)) {
+        setError(result);
+      } else {
+        setError({ value: result.value, error: result.error });
+      }
+    } else {
+      const { email, name, password, surname } = registerForm;
+      registrationUser({
+        email: email,
+        name: name,
+        password: password,
+        surname: surname,
+      });
     }
-
-    const { email, name, password, surname } = registerForm;
-    registrationUser({
-      email: email,
-      name: name,
-      password: password,
-      surname: surname,
-    });
   };
 
   return (

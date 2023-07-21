@@ -3,3 +3,4 @@ export interface SerializedError {
         message?: string
     }
 }
+
