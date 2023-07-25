@@ -1,6 +1,7 @@
 import Router from "express";
 import controller from "../controllers/authController.js";
 import { check } from "express-validator";
+import authMiddleware from "../middlewares/auth-middleware.js";
 
 const router = new Router();
 
@@ -18,6 +19,10 @@ router.post(
   controller.registration
 );
 router.post("/login", controller.login);
-router.get("/users", controller.getUsers);
+router.post("/logout", controller.logout);
+router.get("/activate/:link", controller.activate);
+router.get("/refresh", controller.refresh);
+
+router.get("/users", authMiddleware, controller.getUsers);
 
 export default router;

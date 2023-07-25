@@ -1,8 +1,8 @@
 import { Suspense, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { privateRoutes, publicRoutes } from "../../routes";
-import Login from "../../pages/Public/Login";
 import { useAppSelector } from "../../hooks/redux";
+import Home from "../../pages/Private/Home";
 
 const Router = () => {
   const { isAuth } = useAppSelector((state) => state.auth);
@@ -27,7 +27,7 @@ const Router = () => {
               ))}
           <Route
             path="*"
-            element={<Login />}
+            element={<Home />}
           />
         </Routes>
       </Suspense>

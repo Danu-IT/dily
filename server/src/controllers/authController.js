@@ -1,62 +1,83 @@
-import User from "../models/User.js";
-import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
-import jwt from "jsonwebtoken";
-import { config } from "../config.js";
-
-const generateAccessToken = (id) => {
-  const payload = {
-    id,
-  };
-  return jwt.sign(payload, config.secret, { expiresIn: "24h" });
-};
+import userService from "../services/user.js";
 
 class authController {
-  async registration(req, res) {
+  async registration(req, res, next) {
     try {
       const { name, surname, password, email } = req.body;
       const errors = validationResult(req);
+
       if (!errors.isEmpty()) return res.status(400).json({ message: errors });
 
-      const candidate = await User.findOne({ email });
-      if (candidate) {
-        return res
-          .status(400)
-          .json({ message: "Пользователь с таким email уже существует" });
-      }
-      const hashPassword = bcrypt.hashSync(password, 6);
-      const user = new User({ email, password: hashPassword, surname, name });
-      await user.save();
+      const userData = await userService.registration(
+        email,
+        password,
+        surname,
+        name
+      );
+
+      res.cookie("refreshToken", userData.refreshToken, {
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
+
       return res.json({ message: "Пользователь успешно зарегистрирован" });
     } catch (e) {
-      res.status(400).json({ message: "Ошибка регистрации" });
+      res.status(400).json({ message: e.message });
     }
   }
-  async login(req, res) {
+  async login(req, res, next) {
     try {
-      const { name, email, password, surname } = req.body;
-      const user = await User.findOne({ email: email });
-      if (!user) {
-        return res
-          .status(400)
-          .json({ message: `Пользователь с таким ${email} не найден` });
-      }
-      const validPassword = bcrypt.compareSync(password, user.password);
-      if (!validPassword) {
-        return res.status(400).json({ message: "Введен неверный пароль" });
-      }
-      const token = generateAccessToken(user._id);
-      return res.json(token);
+      const { email, password, surname, name } = req.body;
+      const userData = await userService.login(email, password, surname, name);
+
+      res.cookie("refreshToken", userData.refreshToken, {
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
+
+      return res.json(userData);
     } catch (e) {
-      res.status(400).json({ message: "Ошибка авторизации" });
+      res.status(400).json({ message: e.message });
     }
   }
-  async getUsers(req, res) {
+  async logout(req, res, next) {
     try {
-      console.log(res);
-      res.json("Сервер работает");
+      const { refreshToken } = req.cookies;
+      const token = await userService.logout(refreshToken);
+      res.clearCookie("refreshToken");
+      return res.status(200).json({ message: "Вы успешно вышли из аккаунта" });
+    } catch (e) {
+      res.status(400).json({ message: "Ошибка выхода из аккаунта" });
+    }
+  }
+  async refresh(req, res, next) {
+    try {
+      const { refreshToken } = req.cookies;
+      const userData = await userService.refresh(refreshToken);
+
+      res.cookie("refreshToken", userData.refreshToken, {
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
+
+      return res.json(userData);
     } catch (e) {
       res.status(400).json({ message: "Registrations failed" });
+    }
+  }
+  async activate(req, res, next) {
+    try {
+      console.log(res);
+    } catch (e) {
+      res.status(400).json({ message: "Registrations failed" });
+    }
+  }
+  async getUsers(req, res, next) {
+    try {
+      res.json("Сервер работает");
+    } catch (e) {
+      res.status(400).json({ message: e.message });
     }
   }
 }

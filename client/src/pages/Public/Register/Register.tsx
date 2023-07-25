@@ -52,6 +52,7 @@ const Register = () => {
       }
     } else {
       const { email, name, password, surname } = registerForm;
+
       registrationUser({
         email: email,
         name: name,
