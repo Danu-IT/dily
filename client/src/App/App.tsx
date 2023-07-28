@@ -1,11 +1,13 @@
 import Router from "../components/Router";
 import { useEffect } from "react";
 import { authAPI } from "../store/services/authService";
-import { useAppDispatch } from "../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { changeUser, toggleAuth } from "../store/slices/auth";
+import Header from "../components/Header";
 
 const App = () => {
   const [refresh, { data }] = authAPI.useLazyRefreshTokenQuery();
+  const { isAuth } = useAppSelector((state) => state.auth);
 
   const dispatch = useAppDispatch();
 
@@ -24,6 +26,7 @@ const App = () => {
 
   return (
     <>
+      {isAuth && <Header />}
       <Router />
     </>
   );
