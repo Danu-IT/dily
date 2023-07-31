@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { TownTypes } from "../../type/different";
+import { Categories, TownTypes } from "../../type/different";
 
 export const differentAPI = createApi({
     reducerPath: "differentAPI",
@@ -17,6 +17,15 @@ export const differentAPI = createApi({
                     "Content-Type": "application/json",
                     "Accept": "application/json",
                     "Authorization": "Token " + "c52cf6c6979442781d1db3da131dffc98e2e4dd8"
+                },
+            })
+        }),
+        getCategories: build.query<Categories, void>({
+            query: body => ({
+                url: "http://localhost:5000/category",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
                 },
             })
         })

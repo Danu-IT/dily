@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   let search = useLocation().pathname;
-
   const [navbarState, setNavbarState] = useState(navbar);
   const navigate = useNavigate();
 
@@ -38,7 +37,7 @@ const Navbar = () => {
 
   useEffect(() => {
     updateLink();
-  }, []);
+  }, [search]);
 
   return (
     <Container>

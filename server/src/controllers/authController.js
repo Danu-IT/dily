@@ -2,7 +2,7 @@ import { validationResult } from "express-validator";
 import userService from "../services/user.js";
 
 class authController {
-  async registration(req, res, next) {
+  async registration(req, res) {
     try {
       const { name, surname, password, email } = req.body;
       const errors = validationResult(req);
@@ -26,7 +26,7 @@ class authController {
       res.status(400).json({ message: e.message });
     }
   }
-  async login(req, res, next) {
+  async login(req, res) {
     try {
       const { email, password, surname, name } = req.body;
       const userData = await userService.login(email, password, surname, name);
@@ -41,7 +41,7 @@ class authController {
       res.status(400).json({ message: e.message });
     }
   }
-  async logout(req, res, next) {
+  async logout(req, res) {
     try {
       const { refreshToken } = req.cookies;
       const token = await userService.logout(refreshToken);
@@ -51,7 +51,7 @@ class authController {
       res.status(400).json({ message: "Ошибка выхода из аккаунта" });
     }
   }
-  async refresh(req, res, next) {
+  async refresh(req, res) {
     try {
       const { refreshToken } = req.cookies;
       const userData = await userService.refresh(refreshToken);
@@ -66,14 +66,14 @@ class authController {
       res.status(400).json({ message: "Registrations failed" });
     }
   }
-  async activate(req, res, next) {
+  async activate(req, res) {
     try {
       console.log(res);
     } catch (e) {
       res.status(400).json({ message: "Registrations failed" });
     }
   }
-  async getUsers(req, res, next) {
+  async getUsers(req, res) {
     try {
       res.json("Сервер работает");
     } catch (e) {
