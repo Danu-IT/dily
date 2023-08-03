@@ -47,5 +47,6 @@ const Container = styled.div`
   right: 50%;
   margin-left: -50vw;
   margin-right: -50vw;
+  padding-bottom: 80px;
 `;
 export default SliderCustom;

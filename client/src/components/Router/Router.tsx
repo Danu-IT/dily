@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { privateRoutes, publicRoutes } from "../../routes";
 import { useAppSelector } from "../../hooks/redux";
-import Home from "../../pages/Private/Home";
+// import Home from "../../pages/Private/Home";
 
 const Router = () => {
   const { isAuth } = useAppSelector((state) => state.auth);
@@ -25,10 +25,10 @@ const Router = () => {
                   element={<route.component />}
                 />
               ))}
-          <Route
+          {/* <Route
             path="*"
             element={<Home />}
-          />
+          /> */}
         </Routes>
       </Suspense>
     </BrowserRouter>

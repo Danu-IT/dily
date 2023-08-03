@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { authAPI } from "../store/services/authService";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { changeUser, toggleAuth } from "../store/slices/auth";
-import Header from "../components/Header";
 import { differentAPI } from "../store/services/differentService";
 import { getCategories } from "../store/slices/different";
 
@@ -11,7 +10,6 @@ const App = () => {
   const [refresh, { data }] = authAPI.useLazyRefreshTokenQuery();
   const { data: categories } = differentAPI.useGetCategoriesQuery();
 
-  const { isAuth } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -19,6 +17,7 @@ const App = () => {
       refresh();
     }
   }, []);
+
   useEffect(() => {
     categories && dispatch(getCategories(categories.items));
   }, [categories]);
@@ -32,7 +31,6 @@ const App = () => {
 
   return (
     <>
-      <Header />
       <Router />
     </>
   );

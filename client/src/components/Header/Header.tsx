@@ -5,7 +5,7 @@ import { differentAPI } from "../../store/services/differentService";
 import { useEffect } from "react";
 import { useAppDispatch } from "../../hooks/redux";
 import { toggleTown } from "../../store/slices/different";
-import { BrowserRouter } from "react-router-dom";
+import styled from "styled-components";
 
 const Header = () => {
   const { coords } = useGeolocated({
@@ -35,11 +35,16 @@ const Header = () => {
   }, [town]);
 
   return (
-    <BrowserRouter>
+    <Container>
       <Up />
       <Down />
-    </BrowserRouter>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  padding-bottom: 100px;
+  position: relative;
+`;
 
 export default Header;

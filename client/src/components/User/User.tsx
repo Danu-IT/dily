@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { useAppSelector } from "../../hooks/redux";
 import { firstLetterUppercase } from "../../utils/index";
 import { BiSolidUser } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 const User = () => {
   const { user } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
   return (
     <Container>
       <BiSolidUser color="#00C65E" />
@@ -14,7 +16,7 @@ const User = () => {
           <div>{firstLetterUppercase(user.surname)}</div>
         </UserCurrent>
       ) : (
-        <>Вход/ регистрация</>
+        <div onClick={() => navigate("/register")}>Вход/ регистрация</div>
       )}
     </Container>
   );
