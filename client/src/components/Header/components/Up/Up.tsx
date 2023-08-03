@@ -23,13 +23,16 @@ const Up = () => {
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  position: relative;
+`;
 
 const Content = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 63px;
+  max-width: 1200px;
 `;
 
 const Right = styled.div`

@@ -81,6 +81,7 @@ const Container = styled.div`
   display: flex;
   color: white;
   width: 100%;
+  max-width: 100%;
 `;
 
 export default Register;

@@ -1,6 +1,6 @@
 import { ComponentType, lazy } from "react";
 
-const Home = lazy(() => import('../pages/Private/Home'))
+// const Home = lazy(() => import('../pages/Private/Home'))
 const Login = lazy(() => import('../pages/Public/Login'))
 const Register = lazy(() => import('../pages/Public/Register'))
 const Reset = lazy(() => import('../pages/Public/Reset'))
@@ -22,7 +22,7 @@ export enum RoutesNamesPublic {
 }
 
 export const privateRoutes: IRoute[] = [
-    { path: RoutesNamesPrivate.HOME, component: Home, type: "Home" },
+    // { path: RoutesNamesPrivate.HOME, component: Home, type: "Home" },
 ];
 
 export const publicRoutes: IRoute[] = [

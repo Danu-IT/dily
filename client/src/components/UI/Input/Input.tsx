@@ -68,7 +68,7 @@ const Top = styled.div`
 `;
 const Eye = styled.div`
   position: absolute;
-  right: 20px;
+  right: 50px;
   cursor: pointer;
   top: 55%;
 `;
